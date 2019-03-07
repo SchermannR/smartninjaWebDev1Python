@@ -1,0 +1,43 @@
+import random
+import json
+import datetime
+
+
+#repeat the game - outer true loop
+while True:
+    secret = random.randint(1, 30)
+    attempts = 0
+    current_time = datetime.datetime.now()
+    print(secret)
+    print(current_time)
+    score_dict = {"attempts":attempts,"date":current_time}
+    with open("score_list.txt", "r") as score_file:
+        score_list = json.loads(score_file.read())
+        for score_dict in score_list:
+            print(str(score_dict["attempts"]) + " attempts, date: " + score_dict.get("date"))
+
+    #play until you guss the secret - inner true loop
+    while True:
+        guess = int(input("Guess the secret number (between 1 and 30): "))
+        attempts += 1
+
+        if guess == secret:
+            print("You've guessed it - congratulations! It's number " + str(secret))
+            print("Attempts needed: " + str(attempts))
+            #extend the list with needed attempts
+            score_list.append({"attempts": attempts, "date": str(datetime.datetime.now())})
+            #save it back to the score_file to track the attempts "offline"
+            with open("score_list_dict.txt", "w") as score_file:
+                score_file.write(json.dumps(score_list))
+            break
+        elif guess > secret:
+            print("Your guess is not correct... try something smaller")
+        elif guess < secret:
+            print("Your guess is not correct... try something bigger")
+
+    repeatthegame = input("Do you want to play another round (y/n)")
+
+    if(repeatthegame.lower() == "n"):
+        break
+    else:
+        print("\r\n\r\n\r\n")

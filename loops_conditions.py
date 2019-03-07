@@ -42,6 +42,13 @@ for a in range(5):
     print("Outerloop a= " + str(a))
     for b in range(5):
         print("\tInnerloop b= " + str(b))
+
+
+array = [[1, 2, 3], [4, 5, 6]]
+for a in range(3):
+    for b in range(3):
+        print(array[a][b])
+
 """
 for y in range(5):
     print("Outerloop y= "+str(y))
