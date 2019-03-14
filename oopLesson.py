@@ -1,4 +1,15 @@
-#create a class
+#create a class player to dont to the DRY approach
+class Player():
+    def __init__(self, first_name, last_name, height_cm, weight_kg):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.height_cm = height_cm
+        self.weight_kg = weight_kg
+
+    def weight_to_lbs(self):
+        pounds = self.weight_kg * 2.20462262
+        return pounds
+
 class BasketballPlayer():
     first_name = "abc"
 
@@ -11,7 +22,7 @@ class BasketballPlayer():
         self.points = points
         self.rebounds = rebounds
         self.assists = assists
-        self.__attr = 0 #private variable
+        self.__attr = 0 #private attribute
 
     def weight_to_lbs(self):
         pounds = self.weight_kg * 2.20462262
@@ -24,8 +35,18 @@ class BasketballPlayer():
     def set_private_attribute(self,value): #public function
         self.__attr = value
 
+class FootballPlayer():
+    def __init__(self, first_name, last_name, height_cm, weight_kg, goals, yellow_cards, red_cards):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.height_cm = height_cm
+        self.weight_kg = weight_kg
+        self.goals = goals
+        self.yellow_cards = yellow_cards
+        self.red_cards = red_cards
 
 
+#creation of an object
 createfancybasketballplayer = BasketballPlayer("Very","Sexy",221, 100,999,1000,888)
 #with the keyword you can change the order of the parametes
 lebron = BasketballPlayer(first_name="Lebron", last_name="James", weight_kg=113, height_cm=203, points=27.2, rebounds=7.4, assists=7.2)
@@ -57,3 +78,13 @@ print(lebron.get_private_attribute())
 #lebron.__attribute = 10 --> will not work
 lebron.set_private_attribute(10)
 print(lebron.get_private_attribute())
+
+"""
+football player
+"""
+ronaldo = FootballPlayer(first_name="Cristiano", last_name="Ronaldo", height_cm=184, weight_kg=79, goals=586, yellow_cards=25, red_cards=0)
+messi = FootballPlayer(first_name="Lionel", last_name="Messi", height_cm=170, weight_kg=67, goals=575, yellow_cards=67, red_cards=0)
+print(ronaldo.first_name)
+print(ronaldo.goals)
+print(messi.first_name)
+print(messi.goals)
