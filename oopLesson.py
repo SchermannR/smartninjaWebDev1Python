@@ -10,23 +10,16 @@ class Player():
         pounds = self.weight_kg * 2.20462262
         return pounds
 
-class BasketballPlayer():
+class BasketballPlayer(Player):
     first_name = "abc"
 
     #initialize a new object / contructor
     def __init__(self, first_name, last_name, height_cm, weight_kg, points, rebounds, assists):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.height_cm = height_cm
-        self.weight_kg = weight_kg
+        super().__init__(first_name=first_name, last_name=last_name, height_cm=height_cm, weight_kg=weight_kg)
         self.points = points
         self.rebounds = rebounds
         self.assists = assists
         self.__attr = 0 #private attribute
-
-    def weight_to_lbs(self):
-        pounds = self.weight_kg * 2.20462262
-        return pounds
 
     #common used "workaround" to give access to private attributes (if its needed)
     def get_private_attribute(self): #public function
@@ -35,12 +28,10 @@ class BasketballPlayer():
     def set_private_attribute(self,value): #public function
         self.__attr = value
 
-class FootballPlayer():
+class FootballPlayer(Player):
+
     def __init__(self, first_name, last_name, height_cm, weight_kg, goals, yellow_cards, red_cards):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.height_cm = height_cm
-        self.weight_kg = weight_kg
+        super().__init__(first_name=first_name, last_name=last_name, height_cm=height_cm, weight_kg=weight_kg)
         self.goals = goals
         self.yellow_cards = yellow_cards
         self.red_cards = red_cards
