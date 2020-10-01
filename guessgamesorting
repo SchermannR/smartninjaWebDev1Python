@@ -1,43 +1,253 @@
 import random
-import json
+import time
+
+n = int(random.randint(0, 100))  # The Number to be guessed
+
+print("You Have Decided to play the most interesting game, i.e, Guess the Number Game.")
+time.sleep(2)
 
 
+def eHighscore():
+    """
+    This function holds the code for creating a hish score file and storing the game results of users on selecting 'easy' level
+    """
 
-#repeat the game - outer true loop
-while True:
-    secret = random.randint(1, 30)
-    attempts = 0
-    print(secret)
+    f = open("eHighscore.txt", "a")
+    f.write(eScore)
+    f.write("\n")
+    f.close()
 
-    with open("score_list.txt", "r") as score_file:
-        score_list = json.loads(score_file.read())
-        score_list.sort() #sort the highscore
-        print("Top scores: " + str(score_list))
-        print("Best three scores:"+str(score_list[:3]))
+    f = open("eHighscore.txt")
+    eRecord = f.readlines()
+    print("Best Score is", min(eRecord))
+    f.close()
 
-    #play until you guss the secret - inner true loop
-    while True:
-        guess = int(input("Guess the secret number (between 1 and 30): "))
-        attempts += 1
+def mHighscore():
+    """
+    This function holds the code for creating a hish score file and storing the game results of users on selecting 'medium' level
+    """
 
-        if guess == secret:
-            print("You've guessed it - congratulations! It's number " + str(secret))
-            print("Attempts needed: " + str(attempts))
-            #extend the list with needed attempts
-            score_list.append(attempts)
-            #save it back to the score_file to track the attempts "offline"
-            with open("score_list.txt", "w") as score_file:
-                score_file.write(json.dumps(score_list))
+    f = open("mHighscore.txt", "a")
+    f.write(mScore)
+    f.write("\n")
+    f.close()
+
+    f = open("mHighscore.txt")
+    mRecord = f.readlines()
+    print("Best Score is", min(mRecord))
+    f.close()
+
+def hHighscore():
+    """
+    This function holds the code for creating a hish score file and storing the game results of users on selecting 'hard' level
+    """
+
+    f = open("hHighscore.txt", "a")
+    f.write(hScore)
+    f.write("\n")
+    f.close()
+
+    f = open("hHighscore.txt")
+    hRecord = f.readlines()
+    print("Best Score is", min(hRecord))
+    f.close()
+
+def final():
+    """
+    This function is created to ask user if he wants to play again or quit after playing it once
+    """
+
+    last = input(
+        "If you want to continue playing, type 'Play' or if you want to quit, type 'Quit' : ")
+    last = last.capitalize()
+
+    if last == "Play":
+        mMenu()
+
+    elif last == "Quit":
+        exit()
+
+def mMenu():
+    """
+    This Function is the main menu of the game and user can either schoose to play the game or view the rules of the game in this menu and can finally get redirected to the part where they choose their level --> ( cDifficulty function)
+    """
+
+    menu = input(
+        "Type and enter an option from the following --> 'Play' or 'Rules' : ")
+    menu = menu.capitalize()
+
+    # Take action based on user input
+    if menu == "Play":
+        cDifficulty()  # cDifficulty function is called if user decides to play
+
+    # Rules of the game
+    if menu == "Rules":
+        time.sleep(0.5)
+        print("Rules are as Follows :")
+        time.sleep(2)
+        print("1. There is a randomly generated Number between 1 and 100. The Goal is to guess that Number with given number of guesses")
+        time.sleep(2)
+        print("2. Hints Will be given after you make a guess in order to help you guess the number")
+        time.sleep(2)
+        print("3. You can Choose from 3 Difficulty Levels - Easy , Medium, Hard")
+        time.sleep(2)
+        print("4. Easy - You have 10 attempts to guess the number\nMedium - You have 7 attempts to guess the number\nHard - You have 5 attempts to guess the number")
+        print()
+
+        rMenu = input(
+            "That's it. Type and Enter 'Play' if you want to start the game or Type and Enter 'Back' if you want to go to main menu : ")
+        rMenu = rMenu.capitalize()
+
+        # Take action based on user input
+        if rMenu == "Play":
+            cDifficulty()
+
+        elif rMenu == "Back":
+            mMenu()
+
+def cDifficulty():
+    """
+    This is a function where user selectsthe difficulty level of the game
+    """
+
+    time.sleep(0.5)
+    print("Choose a Difficulty Level")
+    time.sleep(0.5)
+    print("Easy\nMedium\nHard")
+    time.sleep(2)
+    print()
+    level = input("Enter Chosen Difficulty Level if you are ready : ")
+    level = level.capitalize()
+
+    # If level selected is easy --> run the code (lvlEasy) for easy level
+    if level == "Easy":
+        lvlEasy()
+
+    # If level selected is medium --> run the code (lvlMedium) for mediun level
+    elif level == "Medium":
+        lvlMedium()
+
+    # If level selected is hard --> run the code (lvlHard) for hard level
+    elif level == "Hard":
+        lvlHard()
+
+def lvlEasy():
+    """
+    This function holds main game code if level selected by user is easy
+    """
+
+    print("You Have Chosen Easy Difficulty")
+    time.sleep(0.5)
+    print("You Will get 10 Attempts to guess the Number. Game will Start in 3 Seconds")
+    time.sleep(3)
+    gEasy = 10
+
+    while gEasy > 0:
+
+        numEasy = int(input("Enter a Number : "))
+
+        if numEasy > n:
+            print("The Required No. is less than the entered No. You have",
+                  gEasy - 1, "guesses left")
+            gEasy = gEasy - 1
+            continue
+
+        elif numEasy < n:
+            print("The Required No. is greater than the entered No. You have",
+                  gEasy - 1, "guesses left")
+            gEasy = gEasy - 1
+            continue
+
+        elif numEasy == n:
+            global eScore
+            eScore = str(11 - gEasy)
+            print("Congratulations ! You guessed the No. in", eScore, "guesses")
+            eHighscore()  # Executes the high score function
+            time.sleep(1)
+            final()  # Executes the final function
             break
-        elif guess > secret:
-            print("Your guess is not correct... try something smaller")
-        elif guess < secret:
-            print("Your guess is not correct... try something bigger")
 
-    repeatthegame = input("Do you want to play another round (y/n)")
+    if gEasy == 0:
+        print("You Ran out of Guesses. GAME OVER !")
+        final()  # Executes the final function
 
-    if(repeatthegame.lower() == "n"):
-        break
-    else:
-        print("\r\n\r\n\r\n")
+def lvlMedium():
+    """
+    This function holds main game code if level selected by user is medium
+    """
 
+    print("You Have Chosen Medium Difficulty")
+    time.sleep(0.5)
+    print("You Will get 7 Attempts to guess the Number. Game will Start in 3 Seconds")
+    time.sleep(3)
+    gMedium = 7
+
+    while gMedium > 0:
+
+        numMedium = int(input("Enter a Number : "))
+
+        if numMedium > n:
+            print("The Required No. is less than the entered No. You have",
+                  gMedium - 1, "guesses left")
+            gMedium = gMedium - 1
+            continue
+
+        elif numMedium < n:
+            print("The Required No. is greater than the entered No. You have",
+                  gMedium - 1, "guesses left")
+            gMedium = gMedium - 1
+            continue
+
+        elif numMedium == n:
+            global mScore
+            mScore = str(8 - gMedium)
+            print("Congratulations ! You guessed the No. in", mScore, "guesses")
+            mHighscore()  # Executes the high score function
+            final()  # Executes the final function
+            break
+
+    if gMedium == 0:
+        print("You Ran out of Guesses. GAME OVER !")
+        final()  # Executes the final function
+
+def lvlHard():
+    """
+    This function holds main game code if level selected by user is hard
+    """
+
+    print("You Have Chosen Hard Difficulty")
+    time.sleep(0.5)
+    print("You Will get 5 Attempts to guess the Number. Game will Start in 3 Seconds")
+    time.sleep(3)
+    gHard = 5
+
+    while gHard > 0:
+
+        numHard = int(input("Enter a Number : "))
+
+        if numHard > n:
+            print("The Required No. is less than the entered No. You have",
+                  gHard - 1, "guesses left")
+            gHard = gHard - 1
+            continue
+
+        elif numHard < n:
+            print("The Required No. is greater than the entered No. You have",
+                  gHard - 1, "guesses left")
+            gHard = gHard - 1
+            continue
+
+        elif numHard == n:
+            global hScore
+            hScore = str(6 - gHard)
+            print("Congratulations ! You guessed the No. in", hScore, "guesses")
+            hHighscore()  # Executes the high score function
+            final()  # Executes the final function
+            break
+
+    if gHard == 0:
+        print("You Ran out of Guesses. GAME OVER !")
+        final()  # Executes the final function
+
+
+mMenu()  # First Line --> executes the function mMenu
